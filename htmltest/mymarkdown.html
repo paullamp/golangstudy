@@ -1,0 +1,29 @@
+<html>
+<head>
+	
+<link rel="stylesheet" href="editormd/css/editormd.css"/>
+<script src="editormd/js/editormd.js">
+	//    调用编辑器
+var testEditor;
+$(function() {
+    testEditor = editormd("test-editormd", {
+        width   : "1000px",
+        height  : 640,
+        syncScrolling : "single",
+        path    : "editormd/lib/"
+    });
+});
+</script>  
+
+</head>
+<body></body>
+<form>
+<div id="test-editormd">
+    <textarea style="display:none;" id="ts"></textarea>
+</div>
+</form>
+
+</html>
+
+
+

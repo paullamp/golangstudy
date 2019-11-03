@@ -2,27 +2,30 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"io"
+
+	// "net"
+	"net/http"
 )
 
 func main() {
-	ln, lnerr := net.Listen("tcp",":8899")
-	if lnerr != nil {
-		fmt.Println("Readerror", lnerr)
+	resp, geterr := http.Get("http://www.baidu.com")
+	if geterr != nil {
+		fmt.Println("geterror:", geterr)
 		return
 	}
-	defer ln.Close()
-	conn, connerr := ln.Accept()
-	if connerr != nil {
-		fmt.Println(connerr)
-		return
-	}
-	defer conn.Close()
+	defer resp.Body.Close()
 	buf := make([]byte, 1024)
-	n, readerr := conn.Read(buf)
-	if readerr != nil {
-		fmt.Println("readerr:", readerr)
-		return
+	for {
+		n, readerr := resp.Body.Read(buf)
+		fmt.Println(string(buf[:n]))
+		if readerr == io.EOF {
+			break
+		}
+		if readerr != nil {
+			fmt.Println("readerror: ", readerr)
+			return
+		}
 	}
-	fmt.Println(string(buf[:n]))
+
 }
